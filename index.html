@@ -374,19 +374,37 @@
     .nav-dropdown-divider { height: 1px; background: var(--border-light); margin: 6px 14px; }
 
     @media (max-width: 768px) {
+      .nav-dropdown { position: static; }
       .nav-dropdown-menu {
-        position: static; transform: none; box-shadow: none;
+        position: static; box-shadow: none;
         border: none; border-radius: 0; width: 100%;
-        background: rgba(255,255,255,0.03); padding: 0;
-        opacity: 1; visibility: hidden; max-height: 0; overflow: hidden;
+        background: rgba(255,255,255,0.04); padding: 0;
+        top: auto; left: auto;
+        transform: none; opacity: 1; visibility: hidden;
+        max-height: 0; overflow: hidden;
         transition: max-height 0.3s ease;
       }
       .nav-dropdown-menu::before { display: none; }
-      .nav-dropdown.open .nav-dropdown-menu { visibility: visible; max-height: 500px; }
-      .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; }
-      .nav-dropdown-label { padding: 12px 32px 6px; }
-      .nav-dropdown-item { border-radius: 0; padding: 12px 32px; border-bottom: 1px solid var(--border); }
-      .nav-dd-title { color: rgba(255,255,255,0.9); }
+      /* Kill the desktop hover/focus rules on touch: they fire on tap and
+         shove the panel off-screen via translateX(-50%). */
+      .nav-dropdown:hover .nav-dropdown-menu,
+      .nav-dropdown:focus-within .nav-dropdown-menu {
+        transform: none; opacity: 1; visibility: hidden; max-height: 0;
+      }
+      /* Only the .open class controls visibility on mobile. */
+      .nav-dropdown.open .nav-dropdown-menu,
+      .nav-dropdown.open:hover .nav-dropdown-menu,
+      .nav-dropdown.open:focus-within .nav-dropdown-menu {
+        transform: none; opacity: 1; visibility: visible; max-height: 640px;
+      }
+      .nav-dropdown:hover .nav-dropdown-caret { transform: rotate(45deg) translateY(-1px); }
+      .nav-dropdown.open .nav-dropdown-caret { transform: rotate(-135deg) translateY(2px); }
+      .nav-dropdown-label { padding: 14px 24px 6px; }
+      .nav-dropdown-item { border-radius: 0; padding: 12px 24px; border-bottom: 1px solid var(--border); gap: 12px; }
+      .nav-dropdown-item:hover { background: rgba(255,255,255,0.06); }
+      .nav-dd-icon { width: 34px; height: 34px; font-size: 16px; }
+      .nav-dd-title { color: rgba(255,255,255,0.92); font-size: 13px; }
+      .nav-dd-sub { color: var(--copper-light); }
       .nav-dropdown-divider { background: var(--border); margin: 0; }
       .nav-dropdown-toggle { padding: 14px 24px; width: 100%; justify-content: space-between; }
     }
@@ -529,7 +547,7 @@
       .stat-block:nth-child(3)::after { display: none; }
       .testi-grid { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (max-width: 768px) { .nav-links { display: none; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: var(--navy-deep); border-bottom: 1px solid var(--border); padding: 0; gap: 0; }
+    @media (max-width: 768px) { .nav-links { display: none; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: var(--navy-deep); border-bottom: 1px solid var(--border); padding: 0; gap: 0; max-height: calc(100vh - 68px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
       .nav-links.open { display: flex; }
       .nav-links li { border-bottom: 1px solid var(--border); }
       .nav-links a { display: block; padding: 14px 24px; font-size: 15px; }
@@ -618,8 +636,8 @@
       <h1 class="hero-title">The right tools.<br/>The guidance to<br/><span class="highlight">actually use them.</span></h1>
       <p class="hero-subtitle">Go Systematic helps MSMEs, startups, and growing teams cut through the noise, with automation platforms, AI tools, and hands-on coaching that make your operations run smooth and hassle-free.</p>
       <div class="hero-actions">
-        <a href="#contact" class="btn-primary">Let's Talk &rarr;</a>
         <a href="#tools" class="btn-outline">Explore Our Tools</a>
+        <a href="#contact" class="btn-primary">Let's Talk &rarr;</a>
       </div>
     </div>
     <div class="hero-visual" aria-hidden="true">
